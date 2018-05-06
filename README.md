@@ -17,7 +17,7 @@ It can be used for:
 - Sacks of flesh/fat rolls
 - And anything else you can think of!
 
-I'll upload a demo video soon.
+[Here's a video of it in action!](https://youtu.be/hJtRCyUwJLY)
 
 # How to use it 
 
