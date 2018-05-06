@@ -83,3 +83,6 @@ If you're still in doubt, I have included the `.blend` file in the `models` fold
 # Limitations/Known Issues
 
 - Occasionally the bone gets into a twisted state. You can grab the jigglebone in the editor and carefully move it back in a twisting motion to fix it (use the move handles - rotation won't affect it). 
+
+# License
+MIT
