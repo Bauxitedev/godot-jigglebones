@@ -10,7 +10,7 @@ export(float, 0.1, 100, 0.1) var stiffness = 1
 export(float, 0, 100, 0.1) var damping = 0
 export var use_gravity = false
 export var gravity = Vector3(0, -9.81, 0)
-export(Axis) var forward_axis = Z_Minus
+export(Axis) var forward_axis = Axis.Z_Minus
 
 # Previous position
 var prev_pos = Vector3()
