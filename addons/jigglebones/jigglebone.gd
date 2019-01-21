@@ -23,12 +23,12 @@ func jiggleprint(text):
 	
 func get_bone_forward_local():
 	match forward_axis:
-		X_Plus: return Vector3(1,0,0) 
-		Y_Plus: return Vector3(0,1,0) 
-		Z_Plus: return Vector3(0,0,1)
-		X_Minus: return Vector3(-1,0,0)
-		Y_Minus: return Vector3(0,-1,0) 
-		Z_Minus: return Vector3(0,0,-1) 
+		Axis.X_Plus: return Vector3(1,0,0) 
+		Axis.Y_Plus: return Vector3(0,1,0) 
+		Axis.Z_Plus: return Vector3(0,0,1)
+		Axis.X_Minus: return Vector3(-1,0,0)
+		Axis.Y_Minus: return Vector3(0,-1,0) 
+		Axis.Z_Minus: return Vector3(0,0,-1) 
 
 func _ready():
 	set_as_toplevel(true)  # Ignore parent transformation
