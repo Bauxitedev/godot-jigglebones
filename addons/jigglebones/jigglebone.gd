@@ -11,8 +11,10 @@ export(float, 0, 100, 0.1) var damping = 0
 export var use_gravity = false
 export var gravity = Vector3(0, -9.81, 0)
 export(Axis) var forward_axis = Axis.Z_Minus
+onready var skeleton : Skeleton = get_parent()
 
 # Previous position
+onready var initial_translate = translation
 var prev_pos = Vector3()
 
 # Rest length of the distance constraint
@@ -36,7 +38,6 @@ func _ready():
 
 func _process(delta):
 	
-	var skeleton = get_parent()
 	
 	if !(skeleton is Skeleton):
 		jiggleprint("Jigglebone must be a direct child of a Skeleton node")
@@ -84,6 +85,12 @@ func _process(delta):
 	prev_pos = global_transform.origin
 	global_transform.origin = global_transform.origin + vel * delta
 	
+	if is_nan(translation.x) or is_inf(translation.x):
+		translation.x = initial_translate.x
+	if is_nan(translation.y) or is_inf(translation.y):
+		translation.y = initial_translate.y
+	if is_nan(translation.z) or is_inf(translation.z):
+		translation.z = initial_translate.z
 	############### Solve distance constraint ##############
 	
 	var goal_pos = skeleton.to_global(skeleton.get_bone_global_pose(bone_id).origin)
@@ -112,7 +119,7 @@ func _process(delta):
 	if is_nan(bone_new_transf_obj[0][0]):
 		bone_new_transf_obj = Transform()  # Corrupted somehow
 
-	skeleton.set_bone_global_pose(bone_id, bone_new_transf_obj) 
+	skeleton.set_bone_global_pose_override(bone_id, bone_new_transf_obj, 0.5, true) 
 	
 	# Orient this object to the jigglebone
 	global_transform.basis = (skeleton.global_transform * skeleton.get_bone_global_pose(bone_id)).basis
