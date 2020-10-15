@@ -11,6 +11,7 @@ export(float, 0, 100, 0.1) var damping = 0
 export var use_gravity = false
 export var gravity = Vector3(0, -9.81, 0)
 export(Axis) var forward_axis = Axis.Z_Minus
+onready var skeleton : Skeleton = get_parent()
 
 # Previous position
 var prev_pos = Vector3()
@@ -36,7 +37,6 @@ func _ready():
 
 func _process(delta):
 	
-	var skeleton : Skeleton = get_parent()
 	
 	if !(skeleton is Skeleton):
 		jiggleprint("Jigglebone must be a direct child of a Skeleton node")
