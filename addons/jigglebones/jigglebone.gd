@@ -14,6 +14,7 @@ export(Axis) var forward_axis = Axis.Z_Minus
 onready var skeleton : Skeleton = get_parent()
 
 # Previous position
+onready var initial_translate = translation
 var prev_pos = Vector3()
 
 # Rest length of the distance constraint
@@ -84,6 +85,12 @@ func _process(delta):
 	prev_pos = global_transform.origin
 	global_transform.origin = global_transform.origin + vel * delta
 	
+	if is_nan(translation.x) or is_inf(translation.x):
+		translation.x = initial_translate.x
+	if is_nan(translation.y) or is_inf(translation.y):
+		translation.y = initial_translate.y
+	if is_nan(translation.z) or is_inf(translation.z):
+		translation.z = initial_translate.z
 	############### Solve distance constraint ##############
 	
 	var goal_pos = skeleton.to_global(skeleton.get_bone_global_pose(bone_id).origin)
