@@ -112,7 +112,7 @@ func _process(delta):
 	if is_nan(bone_new_transf_obj[0][0]):
 		bone_new_transf_obj = Transform()  # Corrupted somehow
 
-	skeleton.set_bone_global_pose(bone_id, bone_new_transf_obj) 
+	skeleton.set_bone_global_pose_override(bone_id, bone_new_transf_obj, 0.5, true)
 	
 	# Orient this object to the jigglebone
 	global_transform.basis = (skeleton.global_transform * skeleton.get_bone_global_pose(bone_id)).basis
