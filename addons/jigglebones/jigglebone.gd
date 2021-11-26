@@ -36,7 +36,7 @@ func _ready():
 	set_as_toplevel(true)  # Ignore parent transformation
 	prev_pos = global_transform.origin
 
-func _process(delta):
+func _physics_process(delta):
 	if !(skeleton is Skeleton):
 		jiggleprint("Jigglebone must be a direct child of a Skeleton node")
 		return
