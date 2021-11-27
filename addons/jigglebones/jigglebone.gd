@@ -4,6 +4,7 @@ enum Axis {
 	X_Plus, Y_Plus, Z_Plus, X_Minus, Y_Minus, Z_Minus
 }
 
+export							var enabled: bool = true
 export (String) 				var bone_name: String
 export (float, 0.1, 100, 0.1) 	var stiffness: float = 1
 export (float, 0, 100, 0.1) 	var damping: float = 0
@@ -17,10 +18,6 @@ var bone_id: int
 var bone_id_parent: int
 var collision_sphere: CollisionShape
 var prev_pos: Vector3
-#var initial_translation: Vector3
-
-# Rest length of the distance constraint - Unused
-#var rest_length = 1
 
 
 func set_collision_shape(path:NodePath) -> void:
@@ -32,17 +29,24 @@ func set_collision_shape(path:NodePath) -> void:
 
 
 func _ready() -> void:
-	skeleton = get_parent()
+	if not enabled:
+		set_physics_process(false)
+		return
+
 	set_as_toplevel(true)  # Ignore parent transformation
-	#initial_translation = translation
+	skeleton = get_parent() # Parent must be a Skeleton node
+	skeleton.clear_bones_global_pose_override()
 	prev_pos = global_transform.origin
 	set_collision_shape(collision_shape)
 
-	assert(skeleton is Skeleton, "%s: Node must be a direct child of a Skeleton node" % [name])
+
+	assert(! (is_nan(translation.x) or is_inf(translation.x)), "%s: Bone translation corrupted" % [ name ])
 	assert(bone_name, "%s: Please enter a bone name" % [ name ])
 	bone_id = skeleton.find_bone(bone_name)
-	assert(bone_id != -1, "%s: Unknown bone %s - please enter a valid bone name" % [ name, bone_name ])
+	assert(bone_id != -1, "%s: Unknown bone %s - Please enter a valid bone name" % [ name, bone_name ])
 	bone_id_parent = skeleton.get_bone_parent(bone_id)
+
+	set_physics_process(true)
 
 
 func _physics_process(delta) -> void:
@@ -76,26 +80,10 @@ func _physics_process(delta) -> void:
 	prev_pos = global_transform.origin
 	global_transform.origin += vel * delta
 
-	# The checks below are probably no longer needed with static typing.
-	# The assert was added to aid debugging upon corruption.
-	# It is safe to remove the assert, and/or uncomment the corruption fixes below.
-
-	assert(!(is_nan(translation.x) or is_inf(translation.x)), "%s: Bone translation corrupted" % [ name ])
-
-	#if is_nan(translation.x) or is_inf(translation.x):
-	#	jiggleprint("Bone translation corrupted, resetting")
-	#	translation.x = initial_translation.x
-	#if is_nan(translation.y) or is_inf(translation.y):
-	#	jiggleprint("Bone translation corrupted, resetting")
-	#	translation.y = initial_translation.y
-	#if is_nan(translation.z) or is_inf(translation.z):
-	#	jiggleprint("Bone translation corrupted, resetting")
-	#	translation.z = initial_translation.z
-
 	############### Solve distance constraint ##############
 
 	var goal_pos: Vector3 = skeleton.to_global(skeleton.get_bone_global_pose(bone_id).origin)
-	global_transform.origin = goal_pos + (global_transform.origin - goal_pos).normalized() # * rest_length # Always 1
+	global_transform.origin = goal_pos + (global_transform.origin - goal_pos).normalized()
 
 	if collision_sphere:
 		# If bone is inside the collision sphere, push it out
@@ -123,13 +111,6 @@ func _physics_process(delta) -> void:
 	var bone_rotate_axis_obj: Vector3 = bone_transf_obj.basis.xform(bone_rotate_axis).normalized()
 	var bone_new_transf_obj: Transform = Transform(bone_transf_obj.basis.rotated(bone_rotate_axis_obj, bone_rotate_angle), bone_transf_obj.origin)
 
-	# The same note about assert and corruption fixes above applies here as well.
-	assert(!is_nan(bone_new_transf_obj[0][0]), "%s: Bone transform corrupted" % [ name ])
-
-	#if is_nan(bone_new_transf_obj[0][0]):
-	#	jiggleprint("Bone transform corrupted, resetting")
-	#	bone_new_transf_obj = Transform()  # Corrupted somehow
-
 	skeleton.set_bone_global_pose_override(bone_id, bone_new_transf_obj, 0.5, true)
 
 	# Orient this object to the jigglebone
@@ -144,7 +125,3 @@ func get_bone_forward_local() -> Vector3:
 		Axis.X_Minus: return Vector3(-1,0,0)
 		Axis.Y_Minus: return Vector3(0,-1,0)
 		_, Axis.Z_Minus: return Vector3(0,0,-1)
-
-
-func jiggleprint(text) -> void:
-	print("%s: [Jigglebones] Error: %s" % [name, text])
