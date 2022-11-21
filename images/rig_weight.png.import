@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/rig_weight.png-baf3a4fba475dcdd55172800121bdf4c.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://images/rig_weight.png"
-source_md5="f862b9e17f72a89922d6a6689c05e71d"
-
 dest_files=[ "res://.import/rig_weight.png-baf3a4fba475dcdd55172800121bdf4c.stex" ]
-dest_md5="abea40ded9bc9d367908e44dd44f83f3"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,8 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true
