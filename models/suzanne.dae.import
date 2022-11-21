@@ -7,10 +7,7 @@ path="res://.import/suzanne.dae-87d28f901d0943af7a54e2a1aafbca0a.scn"
 [deps]
 
 source_file="res://models/suzanne.dae"
-source_md5="205e86b3ae5eed572a9a9b5c72a9d107"
-
 dest_files=[ "res://.import/suzanne.dae-87d28f901d0943af7a54e2a1aafbca0a.scn" ]
-dest_md5="10c5d87cf9ea505a26464a446e0eaa76"
 
 [params]
 
@@ -19,14 +16,17 @@ nodes/root_name="Scene Root"
 nodes/root_scale=1.0
 nodes/custom_script=""
 nodes/storage=0
+nodes/use_legacy_names=true
 materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true
+meshes/octahedral_compression=true
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0
 meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
+skins/use_named_skins=true
 external_files/store_in_subdir=false
 animation/import=true
 animation/fps=15

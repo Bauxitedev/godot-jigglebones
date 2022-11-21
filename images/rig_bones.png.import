@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/rig_bones.png-5b3b3cf2d66ca3d4f781b0c97df57ce6.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://images/rig_bones.png"
-source_md5="1dafe49ef40100cfb0a5e952f2b7346a"
-
 dest_files=[ "res://.import/rig_bones.png-5b3b3cf2d66ca3d4f781b0c97df57ce6.stex" ]
-dest_md5="7c9fb1a4d99e6ab7eefcc2752f25cdc4"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,8 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true
